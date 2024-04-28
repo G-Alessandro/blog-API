@@ -4,18 +4,26 @@ const path = require('path');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 const mongoose = require('mongoose');
+const cors = require('cors');
 require('dotenv').config();
 
 const indexRouter = require('./routes/index');
 
-const app = express();
-
 const mongoDB = process.env.MONGODB_URI;
+
+const frontendURL = process.env.FRONTEND_URL.split(',');
+
+const app = express();
 
 main().catch((err) => console.log(err));
 async function main() {
   await mongoose.connect(mongoDB);
 }
+
+app.use(cors({
+  origin: frontendURL,
+  credentials: true,
+}));
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));

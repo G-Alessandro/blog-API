@@ -2,7 +2,7 @@ const express = require('express');
 
 const router = express.Router();
 
-const homepage_controller = require('../controller/index');
+const homepage_controller = require('../controllers/index');
 
 router.get('/', homepage_controller.homepage_get);
 
