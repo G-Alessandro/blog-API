@@ -6,9 +6,6 @@ const CommentSchema = new Schema({
   postId: {
     type: Schema.Types.Mixed,
   },
-  userId: {
-    type: Schema.Types.Mixed,
-  },
   username: {
     type: String,
   },
