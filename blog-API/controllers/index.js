@@ -10,11 +10,15 @@ const Comment = require('../models/comment');
 require('dotenv').config();
 
 exports.homepage_get = asyncHandler(async (req, res, next) => {
-  const allPosts = await Post.find().sort({ timestamp: -1 });
+  const allPosts = await Post.find({ isPublished: true }).sort({ timestamp: -1 });
+  const formattedPost = allPosts.map((post) => ({
+    ...post.toObject(),
+    timestamp: format(new Date(post.timestamp), 'EEEE dd MMMM yyyy'),
+  }));
   if (!allPosts) {
-    res.status(200).json();
+    res.status(204).json();
   } else {
-    res.status(200).json(allPosts);
+    res.status(200).json(formattedPost);
   }
 });
 
@@ -85,6 +89,7 @@ exports.sign_in_post = asyncHandler(async (req, res, next) => {
         token,
       });
     }
+    res.redirect('/');
   } catch (error) {
     return res.status(500).json({ message: 'Internal Server Error' });
   }
@@ -100,13 +105,13 @@ exports.sign_in_post = asyncHandler(async (req, res, next) => {
 // });
 
 exports.blog_post_get = asyncHandler(async (req, res, next) => {
-  const post = await Post.findOne({ _id: req.query.id });
-  const comments = await Comment.find({ postId: req.query.id }).sort({ timestamp: -1 });
+  const comments = await Comment.find({ postId: req.params.postId }).sort({ timestamp: -1 });
+
   const formattedComments = comments.map((comment) => ({
     ...comment.toObject(),
     timestamp: format(new Date(comment.timestamp), 'EEEE dd MMMM yyyy HH:mm'),
   }));
-  res.json({ post, formattedComments });
+  res.json({ formattedComments });
 });
 
 exports.blog_comment_post = [
