@@ -1,12 +1,46 @@
+import { useNavigate } from "react-router-dom";
 import TopBar from "../top-bar/TopBar";
 import style from "./SignIn.module.css";
 
-export default function SignIn () {
+export default function SignIn() {
+  const navigate = useNavigate();
+
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+
+    const formData = new FormData(event.target);
+    const username = formData.get("username");
+    const password = formData.get("password");
+
+    try {
+      const response = await fetch("http://localhost:3000/sign-in", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({ username, password })
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+
+        const token = data.token;
+        localStorage.setItem("authenticationToken", token);
+        navigate("/");
+
+      } else {
+        console.error("Error during authentication:", data.message);
+      }
+    } catch (error) {
+      console.error("Error requesting authentication:", error);
+    }
+  };
+
   return (
     <div className={style.container}>
       <TopBar />
-      <form action="http://localhost:3000/sign-in" method="post">
-        
+      <form onSubmit={handleSubmit}>
         <label htmlFor="username">Username</label>
         <input
           type="text"
@@ -28,9 +62,7 @@ export default function SignIn () {
         />
 
         <button type="submit">Done</button>
-
       </form>
     </div>
   );
-
 }
