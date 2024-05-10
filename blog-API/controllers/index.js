@@ -1,7 +1,7 @@
 const asyncHandler = require('express-async-handler');
 const { body, validationResult } = require('express-validator');
 const { format } = require('date-fns');
-const he = require('he');
+// const he = require('he');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const Post = require('../models/post');
@@ -47,8 +47,8 @@ exports.sign_up_post = [
     } else {
       try {
         const user = new User({
-          username: he.decode(req.body.username),
-          password: he.decode(req.body.password),
+          username: req.body.username,
+          password: req.body.password,
           isAuthor: false,
         });
 
@@ -70,39 +70,38 @@ exports.sign_in_get = asyncHandler(async (req, res, next) => {
 exports.sign_in_post = asyncHandler(async (req, res, next) => {
   const { username, password } = req.body;
 
+  console.log('Step 1: Received username and password');
+
   const user = await User.findOne({ username });
 
   if (!user) {
+    console.log('Step 2: User not found');
     return res.status(401).json({ message: 'Auth Failed' });
   }
+
+  console.log('Step 3: User found');
 
   try {
     const match = await bcrypt.compare(password, user.password);
 
     if (match) {
-      const opts = { expiresIn: 3600 };
-      const secret = process.env.JWT_SECRET_KEY;
-      const token = jwt.sign({ username }, secret, opts);
+      console.log('Step 4: Passwords match');
 
-      return res.status(200).json({
-        message: 'Auth Passed',
-        token,
-      });
+      const opts = { expiresIn: '1h' };
+      const secret = process.env.JWT_SECRET_KEY;
+      const token = jwt.sign({ id: user._id, username: user.username }, secret, opts);
+
+      console.log('Step 5: Token generated and stored in localStorage');
+
+      return res.status(200).json({ token });
     }
-    res.redirect('/');
+    console.log('Step 6: Passwords do not match');
+    return res.status(401).json({ message: 'Auth Failed' });
   } catch (error) {
+    console.error('Step 7: Internal Server Error:', error);
     return res.status(500).json({ message: 'Internal Server Error' });
   }
 });
-
-// exports.logout_get = asyncHandler(async (req, res, next) => {
-//   req.logout((err) => {
-//     if (err) {
-//       return next(err);
-//     }
-//     res.redirect('/');
-//   });
-// });
 
 exports.blog_post_get = asyncHandler(async (req, res, next) => {
   const comments = await Comment.find({ postId: req.params.postId }).sort({ timestamp: -1 });

@@ -14,8 +14,6 @@ router.get('/sign-up', index_controller.sign_up_get);
 
 router.post('/sign-up', index_controller.sign_up_post);
 
-// router.get('/logout', index_controller.logout_get);
-
 router.get('/post/:postId', index_controller.blog_post_get);
 
 router.post('/post/:postId', index_controller.blog_comment_post);
