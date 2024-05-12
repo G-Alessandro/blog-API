@@ -1,9 +1,8 @@
 const asyncHandler = require('express-async-handler');
 const { body, validationResult } = require('express-validator');
 const { format } = require('date-fns');
-// const he = require('he');
+const he = require('he');
 const bcrypt = require('bcryptjs');
-// const jwt = require('jsonwebtoken');
 const { generateToken, verifyToken } = require('../utils/jsonwebtoken');
 const Post = require('../models/post');
 const User = require('../models/user');
@@ -15,6 +14,7 @@ exports.homepage_get = asyncHandler(async (req, res, next) => {
   const formattedPost = allPosts.map((post) => ({
     ...post.toObject(),
     timestamp: format(new Date(post.timestamp), 'EEEE dd MMMM yyyy'),
+    text: he.encode(post.text),
   }));
   if (!allPosts) {
     res.status(204).json();
@@ -96,8 +96,9 @@ exports.blog_post_get = asyncHandler(async (req, res, next) => {
   const formattedComments = comments.map((comment) => ({
     ...comment.toObject(),
     timestamp: format(new Date(comment.timestamp), 'EEEE dd MMMM yyyy HH:mm'),
+    text: he.encode(comment.text),
   }));
-  res.json({ formattedComments });
+  res.status(200).json({ formattedComments });
 });
 
 exports.blog_comment_post = [
@@ -122,7 +123,14 @@ exports.blog_comment_post = [
 
         await newComment.save();
 
-        return res.status(201);
+        const comments = await Comment.find({ postId: req.params.postId }).sort({ timestamp: -1 });
+        const formattedComments = comments.map((comment) => ({
+          ...comment.toObject(),
+          timestamp: format(new Date(comment.timestamp), 'EEEE dd MMMM yyyy HH:mm'),
+          text: he.encode(comment.text),
+        }));
+
+        return res.status(201).json({ formattedComments });
       } catch (error) {
         console.log('An error occurred while processing the request:', error);
         res.status(500).send('An error occurred while processing the request.');
