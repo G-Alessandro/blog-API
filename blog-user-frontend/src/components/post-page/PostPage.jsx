@@ -44,7 +44,6 @@ export default function PostPage() {
 
       try {
         const token = localStorage.getItem("authenticationToken");
-
         const response = await fetch(`http://localhost:3000/post/${post._id}`, {
           method: "POST",
           headers: {
@@ -53,10 +52,8 @@ export default function PostPage() {
           },
           body: JSON.stringify(formData),
         });
-
         const data = await response.json();
         if (response.ok) {
-          console.log("Comment send");
           setNewCommentAdded(!newCommentAdded);
         } else {
           console.error("Error adding comment:", data.message);
@@ -65,7 +62,6 @@ export default function PostPage() {
         console.error("Error requesting:", error);
       }
     };
-
     return (
       <form onSubmit={handleSubmit}>
         <textarea type="text" id="comment" name="comment" rows={20} />
