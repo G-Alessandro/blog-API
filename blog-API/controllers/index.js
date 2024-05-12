@@ -3,7 +3,8 @@ const { body, validationResult } = require('express-validator');
 const { format } = require('date-fns');
 // const he = require('he');
 const bcrypt = require('bcryptjs');
-const jwt = require('jsonwebtoken');
+// const jwt = require('jsonwebtoken');
+const { generateToken, verifyToken } = require('../utils/jsonwebtoken');
 const Post = require('../models/post');
 const User = require('../models/user');
 const Comment = require('../models/comment');
@@ -80,13 +81,9 @@ exports.sign_in_post = asyncHandler(async (req, res, next) => {
     const match = await bcrypt.compare(password, user.password);
 
     if (match) {
-      const opts = { expiresIn: '1h' };
-      const secret = process.env.JWT_SECRET_KEY;
-      const token = jwt.sign({ id: user._id, username: user.username }, secret, opts);
-
+      const token = generateToken(user);
       return res.status(200).json({ token });
     }
-
     return res.status(401).json({ message: 'Auth Failed' });
   } catch (error) {
     return res.status(500).json({ message: 'Internal Server Error' });
@@ -112,14 +109,20 @@ exports.blog_comment_post = [
       res.json({ error: errorsMessages });
     } else {
       try {
-        const comment = new Comment({
-          postId: req.query.id,
-          username: req.user.username,
+        const token = req.headers.authorization.split(' ')[1];
+        const decodedToken = verifyToken(token);
+        const tokenUsername = decodedToken.username;
+
+        const newComment = new Comment({
+          postId: req.params.postId,
+          username: tokenUsername,
           text: req.body.comment,
           timestamp: new Date(),
         });
-        await comment.save();
-        res.redirect(`/post/${req.query.id}`);
+
+        await newComment.save();
+
+        return res.status(201);
       } catch (error) {
         console.log('An error occurred while processing the request:', error);
         res.status(500).send('An error occurred while processing the request.');
