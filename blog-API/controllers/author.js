@@ -1,8 +1,9 @@
 const asyncHandler = require('express-async-handler');
 const { body, validationResult } = require('express-validator');
+const { format } = require('date-fns');
 const he = require('he');
 const bcrypt = require('bcryptjs');
-const jwt = require('jsonwebtoken');
+const { generateToken, verifyToken } = require('../utils/jsonwebtoken');
 const Post = require('../models/post');
 const User = require('../models/user');
 const Comment = require('../models/comment');
@@ -29,24 +30,27 @@ exports.author_sign_in_post = asyncHandler(async (req, res, next) => {
     const match = await bcrypt.compare(password, user.password);
 
     if (match) {
-      const opts = { expiresIn: 3600 };
-      const secret = process.env.JWT_SECRET_KEY;
-      const token = jwt.sign({ username }, secret, opts);
-
-      return res.status(200).json({
-        message: 'Auth Passed',
-        token,
-      });
+      const token = generateToken(user);
+      return res.status(200).json({ token });
     }
-    res.redirect('/author-dashboard');
+    return res.status(401).json({ message: 'Auth Failed' });
   } catch (error) {
     return res.status(500).json({ message: 'Internal Server Error' });
   }
 });
 
 exports.author_dashboard_get = asyncHandler(async (req, res, next) => {
-  const authorPost = await Post.find().sort({ timestamp: -1 });
-  res.status(200).json({ authorPost });
+  const posts = await Post.find().sort({ timestamp: -1 });
+  const formattedPost = posts.map((post) => ({
+    ...post.toObject(),
+    timestamp: format(new Date(post.timestamp), 'EEEE dd MMMM yyyy'),
+    text: he.encode(post.text),
+  }));
+  if (!posts) {
+    res.status(204).json('No posts found!');
+  } else {
+    res.status(200).json(formattedPost);
+  }
 });
 
 exports.add_post_get = asyncHandler(async (req, res, next) => {
@@ -72,23 +76,32 @@ exports.add_post_post = [
         });
 
         await post.save();
-        res.redirect('/');
       } catch (error) {
-        res.status(500).send('An error occurred while processing the request.');
+        res.status(500).json('An error occurred while processing the request.');
       }
     }
   }),
 ];
 
-exports.post_put = asyncHandler(async (req, res, next) => {
-  await Post.findByIdAndUpdate(req.query.id, { isPublished: !true });
-  res.redirect('/author-dashboard');
-});
-
-exports.post_delete = asyncHandler(async (req, res, next) => {
-  await Post.findByIdAndDelete(req.query.id);
-  res.redirect('/author-dashboard');
-});
+exports.post_put = [
+  body('isPublished').isBoolean(),
+  asyncHandler(async (req, res, next) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      const errorsMessages = errors.array().map((error) => error.msg);
+      res.json({ error: errorsMessages });
+    } else {
+      try {
+        const decoded = verifyToken(req.headers.authorization.split(' ')[1]);
+        await Post.findByIdAndUpdate(req.params.postId, { isPublished: req.body.isPublished });
+        res.status(200).json('Post publication changed!');
+      } catch (error) {
+        console.log(error('Error requesting:', error));
+        res.status(401).json('Error requesting');
+      }
+    }
+  }),
+];
 
 // Edit comment Delete comment
 

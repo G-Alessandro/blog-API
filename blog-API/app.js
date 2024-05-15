@@ -8,6 +8,7 @@ const cors = require('cors');
 require('dotenv').config();
 
 const indexRouter = require('./routes/index');
+const authorRouter = require('./routes/author');
 
 const mongoDB = process.env.MONGODB_URI;
 
@@ -36,6 +37,7 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
+app.use('/author', authorRouter);
 
 // catch 404 and forward to error handler
 app.use((req, res, next) => {
