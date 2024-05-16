@@ -3,6 +3,7 @@ import HomePage from "./components/home-page/HomePage";
 import AuthorDashboard from "./components/author-dashboard/AuthorDashboard";
 import SignIn from "./components/sign-in/SignIn";
 import PostPage from "./components/post-page/PostPage";
+import NewPost from "./components/new-post/NewPost";
 
 const Router = () => {
 
@@ -22,6 +23,10 @@ const Router = () => {
     {
       path: "/post/:id",
       element: <PostPage />,
+    },
+    {
+      path: "/new-post",
+      element: <NewPost />,
     },
   ]);
 

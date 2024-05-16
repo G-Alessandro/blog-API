@@ -15,6 +15,7 @@ export default function TopBar() {
       <>
         <Link to="/">Home</Link>
         <Link to="/author-dashboard">Dashboard</Link>
+        <Link to="/new-post">+ New Post</Link>
         <button onClick={logout}>Log Out</button>
       </>
     );
