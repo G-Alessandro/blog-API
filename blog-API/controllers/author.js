@@ -53,11 +53,11 @@ exports.author_dashboard_get = asyncHandler(async (req, res, next) => {
   }
 });
 
-exports.add_post_get = asyncHandler(async (req, res, next) => {
-  res.status(200).json();
+exports.new_post_get = asyncHandler(async (req, res, next) => {
+  res.status(200).json({ tinyMceApiKey: process.env.TINY_MCE_API_KEY });
 });
 
-exports.add_post_post = [
+exports.new_post_post = [
   body('title', 'title must not be empty.').trim().isLength({ min: 1 }).escape(),
   body('content', 'text must not be empty.').trim().isLength({ min: 1 }).escape(),
   asyncHandler(async (req, res, next) => {
