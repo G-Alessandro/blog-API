@@ -14,8 +14,8 @@ router.get('/sign-up', index_controller.sign_up_get);
 
 router.post('/sign-up', index_controller.sign_up_post);
 
-router.get('/post/:postId', index_controller.blog_post_get);
+router.get('/post/:postId', index_controller.post_get);
 
-router.post('/post/:postId', index_controller.blog_comment_post);
+router.post('/post/:postId', index_controller.post_comment_post);
 
 module.exports = router;

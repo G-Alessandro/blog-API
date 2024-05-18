@@ -16,4 +16,8 @@ router.post('/new-post', author_controller.new_post_post);
 
 router.put('/dashboard/:postId', author_controller.post_put);
 
+router.put('/post/comment/:commentId', author_controller.comment_put);
+
+router.delete('/post/comment/:commentId', author_controller.comment_delete);
+
 module.exports = router;

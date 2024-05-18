@@ -105,14 +105,13 @@ exports.post_put = [
   }),
 ];
 
-// Edit comment Delete comment
+exports.comment_put = asyncHandler(async (req, res, next) => {
+  const { text } = req.body;
+  await Comment.findByIdAndUpdate(req.params.commentId, { text });
+  res.status(200).json('The comment has been edited!');
+});
 
-// exports.comment_put = asyncHandler(async (req, res, next) => {
-//   await Comment.findById(req.query.id, { isPublished: !true });
-//   res.redirect('/author-dashboard');
-// });
-
-// exports.comment_delete = asyncHandler(async (req, res, next) => {
-//   await Comment.findByIdAndDelete(req.query.id);
-//   res.redirect('/author-dashboard');
-// });
+exports.comment_delete = asyncHandler(async (req, res, next) => {
+  await Comment.findByIdAndDelete(req.params.commentId);
+  res.status(200).json('The comment has been deleted!');
+});

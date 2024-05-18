@@ -90,7 +90,7 @@ exports.sign_in_post = asyncHandler(async (req, res, next) => {
   }
 });
 
-exports.blog_post_get = asyncHandler(async (req, res, next) => {
+exports.post_get = asyncHandler(async (req, res, next) => {
   const comments = await Comment.find({ postId: req.params.postId }).sort({ timestamp: -1 });
 
   const formattedComments = comments.map((comment) => ({
@@ -101,7 +101,7 @@ exports.blog_post_get = asyncHandler(async (req, res, next) => {
   res.status(200).json({ formattedComments });
 });
 
-exports.blog_comment_post = [
+exports.post_comment_post = [
   body('comment', 'Comment must not be empty.').trim().isLength({ min: 1 }).escape(),
   asyncHandler(async (req, res, next) => {
     const errors = validationResult(req);
