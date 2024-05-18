@@ -1,13 +1,16 @@
 import { useEffect, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import TopBar from "../top-bar/TopBar";
+import RenderComments from "../render-comments/RenderComments";
 import style from "./PostPage.module.css";
 
 export default function PostPage() {
   const location = useLocation();
   const post = location.state?.post;
   const [comments, setComments] = useState(null);
+  const [visibleStates, setVisibleStates] = useState([]);
   const [newCommentAdded, setNewCommentAdded] = useState(false);
+
   useEffect(() => {
     fetch(`http://localhost:3000/post/${post._id}`, {
       method: "GET",
@@ -17,29 +20,14 @@ export default function PostPage() {
       // mode: "cors",
     })
       .then((response) => response.json())
-      .then((data) => setComments(data))
+      .then((data) => {
+        setComments(data.formattedComments);
+        setVisibleStates(Array(data.formattedComments.length).fill(true));
+      })
       .catch((error) => console.error(error));
   }, [newCommentAdded]);
 
-  function renderComments(comments) {
-    if (!comments || comments.length === 0) {
-      return <p>Be the first to comment!!</p>;
-    }
-
-    return comments.formattedComments.map((comment) => (
-      <div key={comment._id}>
-        <p>{comment.username}</p>
-        <p>{comment.timestamp}</p>
-        <p>{comment.text}</p>
-        <div>
-          <button>Edit</button>
-          <button>Delete</button>
-        </div>
-      </div>
-    ));
-  }
-
-  const addComment = () => {
+  const newComment = () => {
     const handleSubmit = async (event) => {
       event.preventDefault();
       const formData = {
@@ -76,21 +64,36 @@ export default function PostPage() {
 
   return (
     <div className={style.container}>
+
       <TopBar />
+
       <div>
         <h2>{post.title}</h2>
         <p>{post.username}</p>
         <p>{post.timestamp}</p>
         <p>{post.text}</p>
       </div>
+
       <div>
-        {localStorage.getItem("authenticationToken") ? (
-          addComment()
-        ) : (
+        {localStorage.getItem("authenticationToken") && newComment()}
+        {!localStorage.getItem("authenticationToken") && (
           <Link to="/sign-in">Sign-In to write a comment!</Link>
         )}
       </div>
-      <div>{renderComments(comments)}</div>
+
+      {comments && (
+        <RenderComments
+          comments={comments}
+          setComments={setComments}
+          newCommentAdded={newCommentAdded}
+          setNewCommentAdded={setNewCommentAdded}
+          visibleStates={visibleStates}
+          setVisibleStates={setVisibleStates}
+        />
+      )}
+
+      {!comments && <p>Loading Comments...</p>}
+      
     </div>
   );
 }
