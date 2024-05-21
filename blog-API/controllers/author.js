@@ -9,11 +9,11 @@ const User = require('../models/user');
 const Comment = require('../models/comment');
 require('dotenv').config();
 
-exports.author_sign_in_get = asyncHandler(async (req, res, next) => {
+exports.author_sign_in_get = asyncHandler(async (req, res) => {
   res.status(200).json();
 });
 
-exports.author_sign_in_post = asyncHandler(async (req, res, next) => {
+exports.author_sign_in_post = asyncHandler(async (req, res) => {
   const { username, password } = req.body;
 
   const user = await User.findOne({ username });
@@ -39,12 +39,12 @@ exports.author_sign_in_post = asyncHandler(async (req, res, next) => {
   }
 });
 
-exports.author_dashboard_get = asyncHandler(async (req, res, next) => {
+exports.author_dashboard_get = asyncHandler(async (req, res) => {
   const posts = await Post.find().sort({ timestamp: -1 });
   const formattedPost = posts.map((post) => ({
     ...post.toObject(),
     timestamp: format(new Date(post.timestamp), 'EEEE dd MMMM yyyy'),
-    text: he.encode(post.text),
+    text: he.decode(post.text),
   }));
   if (!posts) {
     res.status(204).json('No posts found!');
@@ -53,14 +53,14 @@ exports.author_dashboard_get = asyncHandler(async (req, res, next) => {
   }
 });
 
-exports.new_post_get = asyncHandler(async (req, res, next) => {
+exports.new_post_get = asyncHandler(async (req, res) => {
   res.status(200).json({ tinyMceApiKey: process.env.TINY_MCE_API_KEY });
 });
 
 exports.new_post_post = [
   body('title', 'title must not be empty.').trim().isLength({ min: 1 }).escape(),
   body('content', 'text must not be empty.').trim().isLength({ min: 1 }).escape(),
-  asyncHandler(async (req, res, next) => {
+  asyncHandler(async (req, res) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
       const errorsMessages = errors.array().map((error) => error.msg);
@@ -87,7 +87,7 @@ exports.new_post_post = [
 
 exports.post_put = [
   body('isPublished').isBoolean(),
-  asyncHandler(async (req, res, next) => {
+  asyncHandler(async (req, res) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
       const errorsMessages = errors.array().map((error) => error.msg);
@@ -105,13 +105,13 @@ exports.post_put = [
   }),
 ];
 
-exports.comment_put = asyncHandler(async (req, res, next) => {
+exports.comment_put = asyncHandler(async (req, res) => {
   const { text } = req.body;
   await Comment.findByIdAndUpdate(req.params.commentId, { text });
   res.status(200).json('The comment has been edited!');
 });
 
-exports.comment_delete = asyncHandler(async (req, res, next) => {
+exports.comment_delete = asyncHandler(async (req, res) => {
   await Comment.findByIdAndDelete(req.params.commentId);
   res.status(200).json('The comment has been deleted!');
 });

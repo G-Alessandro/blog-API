@@ -9,12 +9,12 @@ const User = require('../models/user');
 const Comment = require('../models/comment');
 require('dotenv').config();
 
-exports.homepage_get = asyncHandler(async (req, res, next) => {
+exports.homepage_get = asyncHandler(async (req, res) => {
   const allPosts = await Post.find({ isPublished: true }).sort({ timestamp: -1 });
   const formattedPost = allPosts.map((post) => ({
     ...post.toObject(),
     timestamp: format(new Date(post.timestamp), 'EEEE dd MMMM yyyy'),
-    text: he.encode(post.text),
+    text: he.decode(post.text),
   }));
   if (!allPosts) {
     res.status(204).json();
@@ -23,7 +23,7 @@ exports.homepage_get = asyncHandler(async (req, res, next) => {
   }
 });
 
-exports.sign_up_get = asyncHandler(async (req, res, next) => {
+exports.sign_up_get = asyncHandler(async (req, res) => {
   res.status(200).json();
 });
 
@@ -40,7 +40,7 @@ exports.sign_up_post = [
   body('confirm-password', 'Confirm Password must not be empty.').custom((value, { req }) => value === req.body.password)
     .withMessage('Password does not match.'),
 
-  asyncHandler(async (req, res, next) => {
+  asyncHandler(async (req, res) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
       const errorsMessages = errors.array().map((error) => error.msg);
@@ -64,11 +64,11 @@ exports.sign_up_post = [
   }),
 ];
 
-exports.sign_in_get = asyncHandler(async (req, res, next) => {
+exports.sign_in_get = asyncHandler(async (req, res) => {
   res.status(200).json();
 });
 
-exports.sign_in_post = asyncHandler(async (req, res, next) => {
+exports.sign_in_post = asyncHandler(async (req, res) => {
   const { username, password } = req.body;
 
   const user = await User.findOne({ username });
@@ -90,20 +90,20 @@ exports.sign_in_post = asyncHandler(async (req, res, next) => {
   }
 });
 
-exports.post_get = asyncHandler(async (req, res, next) => {
+exports.post_get = asyncHandler(async (req, res) => {
   const comments = await Comment.find({ postId: req.params.postId }).sort({ timestamp: -1 });
 
   const formattedComments = comments.map((comment) => ({
     ...comment.toObject(),
     timestamp: format(new Date(comment.timestamp), 'EEEE dd MMMM yyyy HH:mm'),
-    text: he.encode(comment.text),
+    text: he.decode(comment.text),
   }));
   res.status(200).json({ formattedComments });
 });
 
 exports.post_comment_post = [
   body('comment', 'Comment must not be empty.').trim().isLength({ min: 1 }).escape(),
-  asyncHandler(async (req, res, next) => {
+  asyncHandler(async (req, res) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
       const errorsMessages = errors.array().map((error) => error.msg);
@@ -127,7 +127,7 @@ exports.post_comment_post = [
         const formattedComments = comments.map((comment) => ({
           ...comment.toObject(),
           timestamp: format(new Date(comment.timestamp), 'EEEE dd MMMM yyyy HH:mm'),
-          text: he.encode(comment.text),
+          text: he.decode(comment.text),
         }));
 
         return res.status(201).json({ formattedComments });
