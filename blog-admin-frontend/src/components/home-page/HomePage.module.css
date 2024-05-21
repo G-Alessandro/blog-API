@@ -1,0 +1,40 @@
+.postContainerContainer {
+  display: flex;
+  justify-content: center;
+}
+
+.postsContainer {
+  display: flex;
+  flex-direction: column;
+  width: 900px;
+}
+
+.postsContainer>.post {
+  color: black;
+  margin-bottom: 20px;
+  border: 3px solid black;
+  padding: 20px;
+  text-decoration: none;
+  transform: .2s;
+}
+
+.postsContainer>.post:hover {
+  transform: scale(1.1);
+}
+
+.postsContainer>.post>h2 {
+  font-weight: 700;
+  margin-bottom: 20px;
+}
+
+.postsContainer>.post>div {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  font-weight: 400;
+}
+
+.postsContainer>.post>div>.author {
+  font-size: 18px;
+  font-weight: 600;
+}

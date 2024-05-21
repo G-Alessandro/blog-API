@@ -10,33 +10,29 @@ export default function TopBar() {
     navigate("/");
   };
 
-  const authenticated = () => {
-    return (
-      <>
-        <Link to="/">Home</Link>
-        <Link to="/author-dashboard">Dashboard</Link>
-        <Link to="/new-post">+ New Post</Link>
-        <button onClick={logout}>Log Out</button>
-      </>
-    );
-  };
-
-  const notAuthenticated = () => {
-    return (
-      <>
-        <Link to="/">Home</Link>
-        <Link to="/sign-in">Sign-In</Link>
-      </>
-    );
-  };
-
   return (
-    <div className={style.container}>
-      <nav className={style.nav}>
-        {localStorage.getItem("authenticationToken")
-          ? authenticated()
-          : notAuthenticated()}
-      </nav>
-    </div>
+    <nav className={style.nav}>
+      <Link to="/" className={style.blogName}>
+        Blog Author Frontend
+      </Link>
+
+      <Link to="/">Home</Link>
+
+      {localStorage.getItem("authenticationToken") && (
+        <>
+          <Link to="/author-dashboard">Dashboard</Link>
+          <Link to="/new-post">+ New Post</Link>
+          <button onClick={logout} className={style.logout}>
+            Log Out
+          </button>
+        </>
+      )}
+
+      {!localStorage.getItem("authenticationToken") && (
+        <>
+          <Link to="/sign-in">Sign-In</Link>
+        </>
+      )}
+    </nav>
   );
 }
