@@ -1,0 +1,43 @@
+.signUpFormContainer {
+  display: flex;
+  justify-content: center;
+}
+
+.signUpForm {
+  display: flex;
+  flex-direction: column;
+  align-self: center;
+  margin-top: 40px;
+  padding: 30px;
+  border: 3px solid black;
+}
+
+.signUpForm>label {
+  font-size: 25px;
+  font-weight: 500;
+  margin-bottom: 5px;
+}
+
+.signUpForm>input {
+  width: 200px;
+  height: 30px;
+  font-size: 23px;
+  margin-bottom: 20px;
+  padding: 5px;
+}
+
+.signUpForm>button {
+  align-self: center;
+  width: fit-content;
+  font-size: 20px;
+  outline: none;
+  box-shadow: none;
+  border: 2px solid black;
+  padding: 10px 20px;
+  background-color: white;
+}
+
+.signUpForm>button:hover{
+  color: white;
+  background-color: black;
+}
