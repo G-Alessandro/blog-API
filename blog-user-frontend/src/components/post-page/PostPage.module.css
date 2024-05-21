@@ -1,0 +1,108 @@
+.postPageContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.postPageContainer>.post {
+  max-width: 800px;
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 20px;
+  border: 3px solid black;
+  padding: 20px;
+}
+
+.postPageContainer>.post>h2 {
+  margin-bottom: 12px;
+}
+
+.postPageContainer>.post>div {
+  display: flex;
+  flex-direction: start;
+  gap: 8px;
+  margin-bottom: 30px;
+}
+
+.postPageContainer>.post>div>.authorName {
+  font-weight: 700;
+}
+
+.postPageContainer>.post>p {
+  line-height: 1.5;
+}
+
+.signInAddCommentContainer {
+  display: flex;
+  justify-content: center;
+}
+
+.commentForm {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 15px;
+}
+
+.commentForm>textarea{
+  font-size: 20px;
+  width: 600px;
+  height: 100px;
+  padding: 10px;
+  resize: none;
+  margin-bottom: 10px;
+}
+
+.commentForm>button{
+  align-self: center;
+  width: fit-content;
+  font-size: 20px;
+  background-color: white;
+  outline: none;
+  box-shadow: none;
+  border: 2px solid black;
+  padding: 5px 10px;
+}
+
+.commentForm>button:hover{
+  color: white;
+  background-color: black;
+}
+
+.signInComment {
+  font-size: 20px;
+  margin-bottom: 20px;
+}
+
+
+.commentsContainer {
+  display: flex;
+  flex-direction: column;
+  max-width: 600px;
+  gap: 15px;
+}
+
+.commentsContainer>p {
+  font-size: 20px;
+  font-weight: 700;
+}
+
+.commentsContainer>.comment {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 10px;
+  border: 2px solid black;
+  padding: 10px;
+}
+
+.commentsContainer>.comment>div {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  margin-bottom: 10px;
+  border-bottom: 1px solid black;
+  padding-bottom: 5px;
+}
+
+.commentsContainer>.comment>div>.authorName {
+  font-weight: 700;
+}

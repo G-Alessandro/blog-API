@@ -22,14 +22,17 @@ export default function PostPage() {
   }, [newCommentAdded]);
 
   function renderComments(comments) {
-    if (!comments || comments.length === 0) {
-      return <p>Be the first to comment!!</p>;
+
+    if (comments.formattedComments.length === 0) {
+      return <p>Be the first to comment!</p>
     }
 
     return comments.formattedComments.map((comment) => (
-      <div key={comment._id}>
-        <p>{comment.username}</p>
-        <p>{comment.timestamp}</p>
+      <div key={comment._id} className={style.comment}>
+        <div>
+          <p className={style.authorName}>{comment.username}</p>
+          <p>{comment.timestamp}</p>
+        </div>
         <p>{comment.text}</p>
       </div>
     ));
@@ -63,30 +66,40 @@ export default function PostPage() {
       }
     };
     return (
-      <form onSubmit={handleSubmit}>
-        <textarea type="text" id="comment" name="comment" rows={20} />
+      <form onSubmit={handleSubmit} className={style.commentForm}>
+        <textarea type="text" id="comment" name="comment"/>
         <button type="submit">Add Comment</button>
       </form>
     );
   };
 
   return (
-    <div className={style.container}>
+    <>
       <TopBar />
-      <div>
-        <h2>{post.title}</h2>
-        <p>{post.username}</p>
-        <p>{post.timestamp}</p>
-        <p>{post.text}</p>
+      <div className={style.postPageContainer}>
+        <div className={style.post}>
+          <h2>{post.title}</h2>
+          <div>
+            <p>By:</p>
+            <p className={style.authorName}>{post.username}</p>
+            <p>{post.timestamp}</p>
+          </div>
+          <p>{post.text}</p>
+        </div>
+        <div className={style.signInAddCommentContainer}>
+          {localStorage.getItem("authenticationToken") ? (
+            addComment()
+          ) : (
+            <Link to="/sign-in" className={style.signInComment}>
+              Sign-In to write a comment!
+            </Link>
+          )}
+        </div>
+        <div className={style.commentsContainer}>
+          {!comments && <p>Loading comments...</p>}
+          {comments && renderComments(comments)}
+        </div>
       </div>
-      <div>
-        {localStorage.getItem("authenticationToken") ? (
-          addComment()
-        ) : (
-          <Link to="/sign-in">Sign-In to write a comment!</Link>
-        )}
-      </div>
-      <div>{renderComments(comments)}</div>
-    </div>
+    </>
   );
 }

@@ -4,6 +4,9 @@
   padding: 10px;
   margin-bottom: 20px;
   align-items: center;
+  position: sticky;
+  top: 0;
+  background-color: white;
 }
 
 .nav>.logout {

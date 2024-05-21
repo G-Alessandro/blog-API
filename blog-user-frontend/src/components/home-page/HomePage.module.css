@@ -1,9 +1,15 @@
-.postContainer {
+.postContainerContainer {
   display: flex;
-  flex-direction: column;
+  justify-content: center;
 }
 
-.postContainer>.post {
+.postsContainer {
+  display: flex;
+  flex-direction: column;
+  width: 900px;
+}
+
+.postsContainer>.post {
   color: black;
   margin-bottom: 20px;
   border: 3px solid black;
@@ -12,23 +18,23 @@
   transform: .2s;
 }
 
-.postContainer>.post:hover {
+.postsContainer>.post:hover {
   transform: scale(1.1);
 }
 
-.postContainer>.post>h2 {
+.postsContainer>.post>h2 {
   font-weight: 700;
   margin-bottom: 20px;
 }
 
-.postContainer>.post>div {
+.postsContainer>.post>div {
   display: flex;
   align-items: baseline;
   gap: 10px;
   font-weight: 400;
 }
 
-.postContainer>.post>div>.author {
+.postsContainer>.post>div>.author {
   font-size: 18px;
   font-weight: 600;
 }

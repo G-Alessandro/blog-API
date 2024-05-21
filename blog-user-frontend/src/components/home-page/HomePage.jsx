@@ -39,7 +39,9 @@ export default function HomePage() {
   return (
     <>
       <TopBar />
-      <div className={style.postContainer}>{posts && renderPosts(posts)}</div>
+      <div className={style.postContainerContainer}>
+        <div className={style.postsContainer}>{posts && renderPosts(posts)}</div>
+      </div>
     </>
   );
 }
