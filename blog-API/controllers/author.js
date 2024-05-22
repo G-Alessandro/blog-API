@@ -106,8 +106,8 @@ exports.post_put = [
 ];
 
 exports.comment_put = asyncHandler(async (req, res) => {
-  const { text } = req.body;
-  await Comment.findByIdAndUpdate(req.params.commentId, { text });
+  const commentText = req.body.comment;
+  await Comment.findByIdAndUpdate(req.params.commentId, { text: commentText });
   res.status(200).json('The comment has been edited!');
 });
 
