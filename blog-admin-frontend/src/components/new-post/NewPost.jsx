@@ -1,6 +1,8 @@
 import { useEffect, useState, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { Editor } from "@tinymce/tinymce-react";
+import TopBar from "../top-bar/TopBar";
+import style from "./NewPost.module.css";
 
 export default function NewPost() {
   const editorRef = useRef(null);
@@ -53,14 +55,16 @@ export default function NewPost() {
 
   return (
     <>
+      <TopBar />
       {tinyMceApiKey === null && <h1>Loading.....</h1>}
       {tinyMceApiKey && (
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={handleSubmit} className={style.newPostForm}>
           <label htmlFor="title">Title:</label>
           <input type="text" name="title" id="title" required />
+          <p>Content:</p>
           <Editor
             apiKey={tinyMceApiKey}
-            onInit={(_evt, editor) => editorRef.current = editor}
+            onInit={(_evt, editor) => (editorRef.current = editor)}
             init={{
               plugins:
                 "anchor autolink charmap codesample emoticons image link lists media searchreplace table visualblocks wordcount checklist mediaembed casechange export formatpainter pageembed linkchecker a11ychecker tinymcespellchecker permanentpen powerpaste advtable advcode editimage advtemplate ai mentions tinycomments tableofcontents footnotes mergetags autocorrect typography inlinecss markdown",

@@ -1,0 +1,35 @@
+.newPostForm {
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+}
+
+.newPostForm>label,
+.newPostForm>p {
+  font-size: 20px;
+  font-weight: 700;
+}
+
+.newPostForm>input {
+  width: 60%;
+  margin-left: 5px;
+  margin-bottom: 15px;
+  font-size: 20px;
+  padding: 5px;
+}
+
+.newPostForm>button {
+  align-self: center;
+  width: fit-content;
+  font-size: 26px;
+  font-weight: 700;
+  background-color: white;
+  border: 2px solid black;
+  padding: 5px 10px;
+  margin-top: 10px;
+}
+
+.newPostForm>button:hover {
+  color: white;
+  background-color: black;
+}
