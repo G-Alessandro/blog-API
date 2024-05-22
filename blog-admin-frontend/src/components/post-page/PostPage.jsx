@@ -55,7 +55,7 @@ export default function PostPage() {
       }
     };
     return (
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={handleSubmit} className={style.commentForm}>
         <textarea type="text" id="comment" name="comment" rows={20} />
         <button type="submit">Add Comment</button>
       </form>
@@ -63,37 +63,41 @@ export default function PostPage() {
   };
 
   return (
-    <div className={style.container}>
-
+    <>
       <TopBar />
+      <div className={style.postPageContainer}>
+        <div className={style.post}>
+          <h2>{post.title}</h2>
+          <div>
+            <p>By:</p>
+            <p className={style.authorName}>{post.username}</p>
+            <p>{post.timestamp}</p>
+          </div>
+          <p>{post.text}</p>
+        </div>
 
-      <div>
-        <h2>{post.title}</h2>
-        <p>{post.username}</p>
-        <p>{post.timestamp}</p>
-        <p>{post.text}</p>
-      </div>
+        <div className={style.signInAddCommentContainer}>
+          {localStorage.getItem("authenticationToken") && newComment()}
+          {!localStorage.getItem("authenticationToken") && (
+            <Link to="/sign-in" className={style.signInComment}>
+              Sign-In to write a comment!
+            </Link>
+          )}
+        </div>
 
-      <div>
-        {localStorage.getItem("authenticationToken") && newComment()}
-        {!localStorage.getItem("authenticationToken") && (
-          <Link to="/sign-in">Sign-In to write a comment!</Link>
+        {!comments && <p>Loading Comments...</p>}
+
+        {comments && (
+          <RenderComments
+            comments={comments}
+            setComments={setComments}
+            newCommentAdded={newCommentAdded}
+            setNewCommentAdded={setNewCommentAdded}
+            visibleStates={visibleStates}
+            setVisibleStates={setVisibleStates}
+          />
         )}
       </div>
-
-      {comments && (
-        <RenderComments
-          comments={comments}
-          setComments={setComments}
-          newCommentAdded={newCommentAdded}
-          setNewCommentAdded={setNewCommentAdded}
-          visibleStates={visibleStates}
-          setVisibleStates={setVisibleStates}
-        />
-      )}
-
-      {!comments && <p>Loading Comments...</p>}
-      
-    </div>
+    </>
   );
 }

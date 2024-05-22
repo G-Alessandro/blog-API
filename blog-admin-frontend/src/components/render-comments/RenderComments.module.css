@@ -1,0 +1,87 @@
+.commentsContainer {
+  display: flex;
+  flex-direction: column;
+  width: 600px;
+  gap: 15px;
+}
+
+.commentsContainer>.comment {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 10px;
+  border: 2px solid black;
+  padding: 10px;
+}
+
+.commentsContainer>.comment>.authorNameTimeContainer {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  margin-bottom: 10px;
+  border-bottom: 1px solid black;
+  padding-bottom: 5px;
+}
+
+.commentsContainer>.comment>div>.authorName {
+  font-weight: 700;
+}
+
+.commentsContainer>.comment>p {
+  padding: 30px 10px;
+}
+
+.commentsContainer>.comment>.buttonContainer {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  border-top: 1px solid black;
+  padding-top: 10px;
+  margin-top: 10px;
+}
+
+.commentsContainer>.comment>.buttonContainer>button {
+  font-size: 15px;
+  font-weight: 700;
+  padding: 5px 10px;
+  background-color: white;
+  border-radius: 5px;
+}
+
+.commentsContainer>.comment>.buttonContainer>.editButton {
+  color: rgb(0, 110, 255);
+  border: 2px solid rgb(0, 110, 255);
+}
+
+.commentsContainer>.comment>.buttonContainer>.editButton:hover {
+  color: white;
+  background-color: rgb(0, 110, 255);
+}
+
+.commentsContainer>.comment>.buttonContainer>.deleteButton {
+  color: rgb(255, 39, 39);
+  border: 2px solid rgb(255, 39, 39);
+}
+
+.commentsContainer>.comment>.buttonContainer>.deleteButton:hover {
+  color: white;
+  background-color:rgb(255, 39, 39);
+}
+
+.commentsContainer>.comment>textarea {
+  height: 100px;
+  font-size: 18px;
+  resize: none;
+  border: 1px solid black;
+  padding: 10px;
+  margin: 10px 0px;
+}
+
+.commentsContainer>.comment>.buttonContainer>.cancelButton {
+  color: rgb(112, 123, 136);
+  border: 2px solid rgb(112, 123, 136);
+}
+
+.commentsContainer>.comment>.buttonContainer>.cancelButton:hover {
+  color: white;
+  background-color: rgb(112, 123, 136);
+}

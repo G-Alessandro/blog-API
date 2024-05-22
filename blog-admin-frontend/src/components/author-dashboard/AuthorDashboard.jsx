@@ -23,14 +23,17 @@ export default function AuthorDashboard() {
   const handlePublicationChange = async (post) => {
     const token = localStorage.getItem("authenticationToken");
     try {
-      const response = await fetch(`http://localhost:3000/author/dashboard/${post._id}`, {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify({ isPublished: !post.isPublished }),
-      });
+      const response = await fetch(
+        `http://localhost:3000/author/dashboard/${post._id}`,
+        {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+          body: JSON.stringify({ isPublished: !post.isPublished }),
+        }
+      );
       const data = await response.json();
       if (response.ok) {
         setPublicationChanged(!publicationChanged);
@@ -43,26 +46,30 @@ export default function AuthorDashboard() {
   };
 
   return (
-    <div>
+    <>
       <TopBar />
-      <div>
-        {posts &&
-          posts.map((post) => (
-            <div key={post._id}>
-              <Link to={`/post/${post._id}`} state={{ post }}>
-                <div>
+      {!posts && <h1>Loading Posts...</h1>}
+      <div className={style.postContainerContainer}>
+        <div className={style.postsContainer}>
+          {posts &&
+            posts.map((post) => (
+              <div key={post._id} className={style.post}>
+                <Link to={`/post/${post._id}`} state={{ post }} className={style.linkPost}>
                   <h2>{post.title}</h2>
-                  <p>{post.username}</p>
-                  <p>{post.timestamp}</p>
-                </div>
-              </Link>
-              <button onClick={() => handlePublicationChange(post)}>
-                {post.isPublished ? "Unpublished" : "Public"}
-              </button>
-            </div>
-          ))}
-        {posts && posts.length === 0 && <p>No posts written</p>}
+                  <div>
+                    <p>By</p>
+                    <p className={style.author}>{post.username}</p>
+                    <p>{post.timestamp}</p>
+                  </div>
+                </Link>
+                <button onClick={() => handlePublicationChange(post)} className={style.buttonPublic}>
+                  {post.isPublished ? "Unpublished" : "Public"}
+                </button>
+              </div>
+            ))}
+          {posts && posts.length === 0 && <p>No posts written</p>}
+        </div>
       </div>
-    </div>
+    </>
   );
 }

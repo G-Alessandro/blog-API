@@ -1,5 +1,13 @@
-export default function RenderComments({comments, setComments, newCommentAdded, setNewCommentAdded, visibleStates, setVisibleStates }) {
-  
+import style from "./RenderComments.module.css";
+
+export default function RenderComments({
+  comments,
+  setComments,
+  newCommentAdded,
+  setNewCommentAdded,
+  visibleStates,
+  setVisibleStates,
+}) {
   const handleEdit = async (event, commentId) => {
     event.preventDefault();
     const formData = {
@@ -56,7 +64,7 @@ export default function RenderComments({comments, setComments, newCommentAdded, 
 
   const handleToggle = (index) => {
     setVisibleStates((prev) =>
-      prev.map((state, i) => (i === index ? !state : state))
+      prev.map((state, i) => (i === index ? state = false : state = true))
     );
   };
 
@@ -65,23 +73,38 @@ export default function RenderComments({comments, setComments, newCommentAdded, 
   }
 
   return comments.map((comment, index) => (
-    <div key={comment._id}>
+    <div key={comment._id} className={style.commentsContainer}>
       {visibleStates[index] ? (
-        <div>
-          <p>{comment.username}</p>
-          <p>{comment.timestamp}</p>
+        <div className={style.comment}>
+          <div className={style.authorNameTimeContainer}>
+            <p className={style.authorName}>{comment.username}</p>
+            <p>{comment.timestamp}</p>
+          </div>
           <p>{comment.text}</p>
-          <div>
-            <button onClick={() => handleToggle(index)}>Edit</button>
-            <button onClick={(e) => handleDelete(e, comment._id)}>
+          <div className={style.buttonContainer}>
+            <button
+              onClick={() => handleToggle(index)}
+              className={style.editButton}
+            >
+              Edit
+            </button>
+            <button
+              onClick={(e) => handleDelete(e, comment._id)}
+              className={style.deleteButton}
+            >
               Delete
             </button>
           </div>
         </div>
       ) : (
-        <form onSubmit={(e) => handleEdit(e, comment._id)}>
-          <p>{comment.username}</p>
-          <p>{comment.timestamp}</p>
+        <form
+          onSubmit={(e) => handleEdit(e, comment._id)}
+          className={style.comment}
+        >
+          <div className={style.authorNameTimeContainer}>
+            <p className={style.authorName}>{comment.username}</p>
+            <p>{comment.timestamp}</p>
+          </div>
           <textarea
             name="comment"
             id="comment"
@@ -92,10 +115,12 @@ export default function RenderComments({comments, setComments, newCommentAdded, 
               setComments(newComments);
             }}
           />
-          <button type="submit" onClick={() => handleToggle(index)}>
-            Edit Done
-          </button>
-          <button onClick={() => handleToggle(index)}>Cancel</button>
+          <div className={style.buttonContainer}>
+            <button type="submit" onClick={() => handleToggle(index)} className={style.editButton}>
+              Edit Done
+            </button>
+            <button onClick={() => handleToggle(index)} className={style.cancelButton}>Cancel</button>
+          </div>
         </form>
       )}
     </div>
