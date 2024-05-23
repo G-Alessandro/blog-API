@@ -23,10 +23,6 @@ export default function PostPage() {
 
   function renderComments(comments) {
 
-    if (comments.formattedComments.length === 0) {
-      return <p>Be the first to comment!</p>
-    }
-
     return comments.formattedComments.map((comment) => (
       <div key={comment._id} className={style.comment}>
         <div>
@@ -96,6 +92,7 @@ export default function PostPage() {
           )}
         </div>
         <div className={style.commentsContainer}>
+          {comments.formattedComments.length === 0 && <p>Be the first to comment!</p>}
           {!comments && <p>Loading comments...</p>}
           {comments && renderComments(comments)}
         </div>
