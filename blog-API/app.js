@@ -14,7 +14,6 @@ const mongoDB = process.env.MONGODB_URI;
 
 const allowedOrigins = process.env.ALLOWED_ORIGINS || '';
 const allowedOriginsArray = allowedOrigins.split(',').map((item) => item.trim());
-console.log(allowedOriginsArray);
 
 const app = express();
 
@@ -24,7 +23,7 @@ async function main() {
 }
 
 app.use(cors({
-  origin: 'https://blog-user-frontend.netlify.app/',
+  origin: allowedOriginsArray,
 }));
 
 // view engine setup
