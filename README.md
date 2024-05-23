@@ -11,7 +11,7 @@
 <h2>Things I've learned:</h2>
 
 <ul>
-  <li>How to use json web token for authentication</li>
+  <li>How to use jsonwebtoken for authentication</li>
   <li>How to authorize access to the frontend from the API</li>
   <li>How to implement TinyMCE in the frontend</li>
 </ul>
