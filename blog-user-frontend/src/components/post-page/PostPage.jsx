@@ -26,7 +26,7 @@ export default function PostPage() {
     //   return <p>Be the first to comment!!</p>;
     // }
 
-    return comments.formattedComments.map((comment) => (
+    return comments.map((comment) => (
       <div key={comment._id} className={style.comment}>
         <div>
           <p className={style.authorName}>{comment.username}</p>
