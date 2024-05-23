@@ -22,10 +22,12 @@ export default function PostPage() {
   }, [newCommentAdded]);
 
   function renderComments(comments) {
-    // if (!comments || comments.length === 0) {
-    //   return <p>Be the first to comment!!</p>;
-    // }
-    console.log("comments", comments)
+
+    if (!comments || comments.length === 0) {
+      return <p>Be the first to comment!!</p>;
+    }
+    
+    console.log("comments",comments)
     return comments.map((comment) => (
       <div key={comment._id} className={style.comment}>
         <div>
@@ -98,7 +100,7 @@ export default function PostPage() {
           )}
         </div>
         <div className={style.commentsContainer}>
-          {comments && renderComments(comments)}
+          {renderComments(comments)}
         </div>
       </div>
     </>
