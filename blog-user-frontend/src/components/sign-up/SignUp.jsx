@@ -6,7 +6,7 @@ export default function SignUp() {
     <>
       <TopBar />
       <div className={style.signUpFormContainer}>
-        <form action="http://localhost:3000/sign-up" method="post" className={style.signUpForm}>
+        <form action="https://blog-api-the-odin-project.fly.dev/sign-up" method="post" className={style.signUpForm}>
           <label htmlFor="username">Username</label>
           <input
             type="text"

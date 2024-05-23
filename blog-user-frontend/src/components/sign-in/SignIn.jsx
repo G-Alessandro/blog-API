@@ -13,7 +13,7 @@ export default function SignIn() {
     };
 
     try {
-      const response = await fetch("http://localhost:3000/sign-in", {
+      const response = await fetch("https://blog-api-the-odin-project.fly.dev/sign-in", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
