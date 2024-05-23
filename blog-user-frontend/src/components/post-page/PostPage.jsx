@@ -22,8 +22,8 @@ export default function PostPage() {
   }, [newCommentAdded]);
 
   function renderComments(comments) {
-    if (comments.formattedComments.length === 0) {
-      return <p>Be the first to comment!</p>;
+    if (!comments || comments.length === 0) {
+      return <p>Be the first to comment!!</p>;
     }
 
     return comments.formattedComments.map((comment) => (
@@ -99,7 +99,6 @@ export default function PostPage() {
         </div>
         <div className={style.commentsContainer}>
           {comments && renderComments(comments)}
-          {!comments && <p>Loading comments...</p>}
         </div>
       </div>
     </>
