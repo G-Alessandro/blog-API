@@ -4,8 +4,8 @@
 
 
 <ul>
-  <li><a href="https://blog-user-frontend.netlify.app/" target="_blank">Blog user frontend Live preview</a></li>
-  <li><a href="https://blog-admin-frontend.netlify.app/" target="_blank">Author user frontend Live preview</a></li>
+  <li><a href="https://blog-user-frontend.netlify.app/" target="_blank">Blog User frontend Live preview</a></li>
+  <li><a href="https://blog-admin-frontend.netlify.app/" target="_blank">Blog Author frontend Live preview</a></li>
 </ul>
 
 <h2>Things I've learned:</h2>
