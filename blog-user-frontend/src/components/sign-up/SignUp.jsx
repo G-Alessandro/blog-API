@@ -1,12 +1,45 @@
+import { useNavigate } from "react-router-dom";
 import TopBar from "../top-bar/TopBar";
 import style from "./SignUp.module.css";
 
 export default function SignUp() {
+  const navigate = useNavigate();
+
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+
+    const formData = {
+      username: event.target.username.value,
+      password: event.target.password.value,
+    };
+
+    try {
+      const response = await fetch("https://blog-api-the-odin-project.fly.dev/sign-up", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData),
+        mode: "cors",
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        navigate("/sign-in");
+      } else {
+        console.error("Error during registration:", data.message);
+      }
+    } catch (error) {
+      console.error("Error requesting registration:", error);
+    }
+  };
+
   return (
     <>
       <TopBar />
       <div className={style.signUpFormContainer}>
-        <form action="https://blog-api-the-odin-project.fly.dev/sign-up" method="post" className={style.signUpForm}>
+        <form onSubmit={handleSubmit} className={style.signUpForm}>
           <label htmlFor="username">Username</label>
           <input
             type="text"
