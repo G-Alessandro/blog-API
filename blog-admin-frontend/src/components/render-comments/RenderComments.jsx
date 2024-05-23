@@ -24,6 +24,7 @@ export default function RenderComments({
             Authorization: `Bearer ${token}`,
           },
           body: JSON.stringify(formData),
+          mode: "cors",
         }
       );
       const data = await response.json();
@@ -49,6 +50,7 @@ export default function RenderComments({
             "Content-Type": "application/json",
             Authorization: `Bearer ${token}`,
           },
+          mode: "cors",
         }
       );
       const data = await response.json();

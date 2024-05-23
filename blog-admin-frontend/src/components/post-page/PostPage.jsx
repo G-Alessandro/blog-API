@@ -17,7 +17,7 @@ export default function PostPage() {
       headers: {
         "Content-Type": "application/json",
       },
-      // mode: "cors",
+      mode: "cors",
     })
       .then((response) => response.json())
       .then((data) => {
@@ -43,6 +43,7 @@ export default function PostPage() {
             Authorization: `Bearer ${token}`,
           },
           body: JSON.stringify(formData),
+          mode: "cors",
         });
         const data = await response.json();
         if (response.ok) {

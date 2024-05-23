@@ -11,7 +11,7 @@ export default function HomePage() {
       headers: {
         "Content-Type": "application/json",
       },
-      // mode: "cors",
+      mode: "cors",
     })
       .then((response) => response.json())
       .then((data) => setPosts(data))

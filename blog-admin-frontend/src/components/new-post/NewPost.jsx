@@ -15,7 +15,7 @@ export default function NewPost() {
       headers: {
         "Content-Type": "application/json",
       },
-      // mode: "cors",
+      mode: "cors",
     })
       .then((response) => response.json())
       .then((data) => setTinyMceApiKey(data.tinyMceApiKey))
@@ -40,6 +40,7 @@ export default function NewPost() {
             Authorization: `Bearer ${token}`,
           },
           body: JSON.stringify(formData),
+          mode: "cors",
         });
         const data = await response.json();
         if (response.ok) {
