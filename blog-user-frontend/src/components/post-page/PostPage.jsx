@@ -14,7 +14,7 @@ export default function PostPage() {
       headers: {
         "Content-Type": "application/json",
       },
-      // mode: "cors",
+      mode: "cors",
     })
       .then((response) => response.json())
       .then((data) => setComments(data))

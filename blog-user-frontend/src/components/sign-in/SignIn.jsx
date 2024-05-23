@@ -19,6 +19,7 @@ export default function SignIn() {
           "Content-Type": "application/json",
         },
         body: JSON.stringify(formData),
+        mode: "cors",
       });
 
       const data = await response.json();
