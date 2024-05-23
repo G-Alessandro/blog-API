@@ -66,7 +66,7 @@ export default function RenderComments({
 
   const handleToggle = (index) => {
     setVisibleStates((prev) =>
-      prev.map((state, i) => (i === index ? state = false : state = true))
+      prev.map((state, i) => (i === index ? (state = false) : (state = true)))
     );
   };
 
@@ -83,20 +83,22 @@ export default function RenderComments({
             <p>{comment.timestamp}</p>
           </div>
           <p>{comment.text}</p>
-          <div className={style.buttonContainer}>
-            <button
-              onClick={() => handleToggle(index)}
-              className={style.editButton}
-            >
-              Edit
-            </button>
-            <button
-              onClick={(e) => handleDelete(e, comment._id)}
-              className={style.deleteButton}
-            >
-              Delete
-            </button>
-          </div>
+          {localStorage.getItem("authenticationToken") && (
+            <div className={style.buttonContainer}>
+              <button
+                onClick={() => handleToggle(index)}
+                className={style.editButton}
+              >
+                Edit
+              </button>
+              <button
+                onClick={(e) => handleDelete(e, comment._id)}
+                className={style.deleteButton}
+              >
+                Delete
+              </button>
+            </div>
+          )}
         </div>
       ) : (
         <form
@@ -117,12 +119,23 @@ export default function RenderComments({
               setComments(newComments);
             }}
           />
-          {localStorage.getItem("authenticationToken") && <div className={style.buttonContainer}>
-            <button type="submit" onClick={() => handleToggle(index)} className={style.editButton}>
+          (
+          <div className={style.buttonContainer}>
+            <button
+              type="submit"
+              onClick={() => handleToggle(index)}
+              className={style.editButton}
+            >
               Edit Done
             </button>
-            <button onClick={() => handleToggle(index)} className={style.cancelButton}>Cancel</button>
-          </div>}
+            <button
+              onClick={() => handleToggle(index)}
+              className={style.cancelButton}
+            >
+              Cancel
+            </button>
+          </div>
+          )
         </form>
       )}
     </div>
