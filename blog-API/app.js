@@ -12,7 +12,8 @@ const authorRouter = require('./routes/author');
 
 const mongoDB = process.env.MONGODB_URI;
 
-const frontendURL = process.env.FRONTEND_URL.split(',');
+const allowedOrigins = process.env.ALLOWED_ORIGINS || '';
+const allowedOriginsArray = allowedOrigins.split(',').map((item) => item.trim());
 
 const app = express();
 
@@ -22,7 +23,7 @@ async function main() {
 }
 
 app.use(cors({
-  origin: frontendURL,
+  origin: allowedOriginsArray,
   credentials: true,
 }));
 
