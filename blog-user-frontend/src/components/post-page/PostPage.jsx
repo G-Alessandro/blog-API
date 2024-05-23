@@ -23,12 +23,12 @@ export default function PostPage() {
 
   function renderComments(comments) {
 
-    if (!comments || comments.length === 0) {
+    if (!comments || comments.formattedComments.length === 0) {
       return <p>Be the first to comment!!</p>;
     }
     
     console.log("comments",comments)
-    return comments.map((comment) => (
+    return comments.formattedComments.map((comment) => (
       <div key={comment._id} className={style.comment}>
         <div>
           <p className={style.authorName}>{comment.username}</p>
