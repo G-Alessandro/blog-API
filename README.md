@@ -2,8 +2,11 @@
 
 <p>Blog app created to practice accessing an API using two different frontends and using jsonwebtoken for authentication.</p>
 
-<a href="https://blog-user-frontend.netlify.app/" target="_blank">Blog user frontend Live preview</a>
-<a href="https://blog-admin-frontend.netlify.app/" target="_blank">Author user frontend Live preview</a>
+
+<ul>
+  <li><a href="https://blog-user-frontend.netlify.app/" target="_blank">Blog user frontend Live preview</a></li>
+  <li><a href="https://blog-admin-frontend.netlify.app/" target="_blank">Author user frontend Live preview</a></li>
+</ul>
 
 <h2>Things I've learned:</h2>
 
