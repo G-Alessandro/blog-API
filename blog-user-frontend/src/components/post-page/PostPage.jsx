@@ -25,7 +25,7 @@ export default function PostPage() {
     // if (!comments || comments.length === 0) {
     //   return <p>Be the first to comment!!</p>;
     // }
-
+    console.log("comments", comments)
     return comments.map((comment) => (
       <div key={comment._id} className={style.comment}>
         <div>
