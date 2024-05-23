@@ -9,7 +9,7 @@ export default function PostPage() {
   const [comments, setComments] = useState(null);
   const [newCommentAdded, setNewCommentAdded] = useState(false);
   useEffect(() => {
-    fetch(`https://blog-api-the-odin-project.fly.dev/${post._id}`, {
+    fetch(`https://blog-api-the-odin-project.fly.dev/post/${post._id}`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
