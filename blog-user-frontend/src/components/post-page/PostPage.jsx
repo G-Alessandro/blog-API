@@ -22,9 +22,9 @@ export default function PostPage() {
   }, [newCommentAdded]);
 
   function renderComments(comments) {
-    if (!comments || comments.length === 0) {
-      return <p>Be the first to comment!!</p>;
-    }
+    // if (!comments || comments.length === 0) {
+    //   return <p>Be the first to comment!!</p>;
+    // }
 
     return comments.formattedComments.map((comment) => (
       <div key={comment._id} className={style.comment}>
