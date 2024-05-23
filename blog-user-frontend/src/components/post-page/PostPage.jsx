@@ -22,6 +22,9 @@ export default function PostPage() {
   }, [newCommentAdded]);
 
   function renderComments(comments) {
+    if (comments.formattedComments.length === 0) {
+      return <p>Be the first to comment!</p>;
+    }
 
     return comments.formattedComments.map((comment) => (
       <div key={comment._id} className={style.comment}>
@@ -43,14 +46,17 @@ export default function PostPage() {
 
       try {
         const token = localStorage.getItem("authenticationToken");
-        const response = await fetch(`https://blog-api-the-odin-project.fly.dev/${post._id}`, {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
-          },
-          body: JSON.stringify(formData),
-        });
+        const response = await fetch(
+          `https://blog-api-the-odin-project.fly.dev/${post._id}`,
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${token}`,
+            },
+            body: JSON.stringify(formData),
+          }
+        );
         const data = await response.json();
         if (response.ok) {
           setNewCommentAdded(!newCommentAdded);
@@ -63,7 +69,7 @@ export default function PostPage() {
     };
     return (
       <form onSubmit={handleSubmit} className={style.commentForm}>
-        <textarea type="text" id="comment" name="comment"/>
+        <textarea type="text" id="comment" name="comment" />
         <button type="submit">Add Comment</button>
       </form>
     );
@@ -92,9 +98,8 @@ export default function PostPage() {
           )}
         </div>
         <div className={style.commentsContainer}>
-          {comments.formattedComments.length === 0 && <p>Be the first to comment!</p>}
-          {!comments && <p>Loading comments...</p>}
           {comments && renderComments(comments)}
+          {!comments && <p>Loading comments...</p>}
         </div>
       </div>
     </>
