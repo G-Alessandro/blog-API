@@ -117,12 +117,12 @@ export default function RenderComments({
               setComments(newComments);
             }}
           />
-          <div className={style.buttonContainer}>
+          {localStorage.getItem("authenticationToken") && <div className={style.buttonContainer}>
             <button type="submit" onClick={() => handleToggle(index)} className={style.editButton}>
               Edit Done
             </button>
             <button onClick={() => handleToggle(index)} className={style.cancelButton}>Cancel</button>
-          </div>
+          </div>}
         </form>
       )}
     </div>
