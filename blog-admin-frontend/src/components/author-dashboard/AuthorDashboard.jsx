@@ -8,7 +8,7 @@ export default function AuthorDashboard() {
   const [publicationChanged, setPublicationChanged] = useState(false);
 
   useEffect(() => {
-    fetch("http://localhost:3000/author/dashboard", {
+    fetch("https://blog-api-the-odin-project.fly.dev/author/dashboard", {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -24,7 +24,7 @@ export default function AuthorDashboard() {
     const token = localStorage.getItem("authenticationToken");
     try {
       const response = await fetch(
-        `http://localhost:3000/author/dashboard/${post._id}`,
+        `https://blog-api-the-odin-project.fly.dev/author/dashboard/${post._id}`,
         {
           method: "PUT",
           headers: {

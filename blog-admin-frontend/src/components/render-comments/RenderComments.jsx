@@ -16,7 +16,7 @@ export default function RenderComments({
     const token = localStorage.getItem("authenticationToken");
     try {
       const response = await fetch(
-        `http://localhost:3000/author/post/comment/${commentId}`,
+        `https://blog-api-the-odin-project.fly.dev/author/post/comment/${commentId}`,
         {
           method: "PUT",
           headers: {
@@ -43,7 +43,7 @@ export default function RenderComments({
     const token = localStorage.getItem("authenticationToken");
     try {
       const response = await fetch(
-        `http://localhost:3000/author/post/comment/${commentId}`,
+        `https://blog-api-the-odin-project.fly.dev/author/post/comment/${commentId}`,
         {
           method: "DELETE",
           headers: {

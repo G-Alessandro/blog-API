@@ -10,7 +10,7 @@ export default function NewPost() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    fetch("http://localhost:3000/author/new-post", {
+    fetch("https://blog-api-the-odin-project.fly.dev/author/new-post", {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -33,7 +33,7 @@ export default function NewPost() {
 
       try {
         const token = localStorage.getItem("authenticationToken");
-        const response = await fetch("http://localhost:3000/author/new-post", {
+        const response = await fetch("https://blog-api-the-odin-project.fly.dev/author/new-post", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",

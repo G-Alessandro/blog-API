@@ -6,7 +6,7 @@ import style from "./HomePage.module.css";
 export default function HomePage() {
   const [posts, setPosts] = useState(null);
   useEffect(() => {
-    fetch("http://localhost:3000/", {
+    fetch("https://blog-api-the-odin-project.fly.dev/", {
       method: "GET",
       headers: {
         "Content-Type": "application/json",

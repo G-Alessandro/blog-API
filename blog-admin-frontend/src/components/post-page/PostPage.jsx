@@ -12,7 +12,7 @@ export default function PostPage() {
   const [newCommentAdded, setNewCommentAdded] = useState(false);
 
   useEffect(() => {
-    fetch(`http://localhost:3000/post/${post._id}`, {
+    fetch(`https://blog-api-the-odin-project.fly.dev/post/${post._id}`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -36,7 +36,7 @@ export default function PostPage() {
 
       try {
         const token = localStorage.getItem("authenticationToken");
-        const response = await fetch(`http://localhost:3000/post/${post._id}`, {
+        const response = await fetch(`https://blog-api-the-odin-project.fly.dev/post/${post._id}`, {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
