@@ -11,7 +11,7 @@ export default function HomePage() {
       headers: {
         "Content-Type": "application/json",
       },
-      // mode: "cors",
+      mode: "cors",
     })
       .then((response) => response.json())
       .then((data) => setPosts(data))
@@ -40,7 +40,9 @@ export default function HomePage() {
     <>
       <TopBar />
       <div className={style.postContainerContainer}>
-        <div className={style.postsContainer}>{posts && renderPosts(posts)}</div>
+        <div className={style.postsContainer}>
+          {posts && renderPosts(posts)}
+        </div>
       </div>
     </>
   );
