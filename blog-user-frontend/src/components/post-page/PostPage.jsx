@@ -49,7 +49,7 @@ export default function PostPage() {
       try {
         const token = localStorage.getItem("authenticationToken");
         const response = await fetch(
-          `https://blog-api-the-odin-project.fly.dev/${post._id}`,
+          `https://blog-api-the-odin-project.fly.dev/post/${post._id}`,
           {
             method: "POST",
             headers: {
